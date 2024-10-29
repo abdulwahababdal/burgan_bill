@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:burgan_bill/Service/auth_service.dart';
 import 'package:burgan_bill/Service/client.dart';
+import 'package:burgan_bill/models/subscription.dart';
 import 'package:burgan_bill/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -8,6 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
   User? user;
+  Sub? subscription;
+
+  bool get isAuth => user != null;
 
   void signup({
     required String email,
@@ -74,6 +78,15 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> otp({
+    required String email,
+    required otp,
+  }) async {
+    var user = await AuthServices().otp(
+      email: email,
+      otp: otp,
+    );
+  }
   // bool isAuth() {
   //   if (token.isNotEmpty && Jwt.getExpiryDate(token)!.isAfter(DateTime.now())) {
   //     user = User.fromJson(Jwt.parseJwt(token));
@@ -87,9 +100,9 @@ class AuthProvider extends ChangeNotifier {
   //   return false;
   // }
 
-  Future<void> initializeAuth() async {
-    await getToken();
-  }
+  // Future<void> initializeAuth() async {
+  //   await getToken();
+  // }
 
   void logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -1,4 +1,7 @@
+
 import 'package:burgan_bill/pages/subscription_selection_page.dart';
+=======
+
 import 'package:burgan_bill/testdata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,18 +15,23 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var itemList = data;
+
   var listScrollController = ScrollController();
   var scrollDirection = ScrollDirection.idle;
+=======
+  final listScrollController = ScrollController();
+  ScrollDirection scrollDirection = ScrollDirection.idle;
+
   int _selectedIndex = 0;
 
   @override
   void initState() {
+    super.initState();
     listScrollController.addListener(() {
       setState(() {
         scrollDirection = listScrollController.position.userScrollDirection;
       });
     });
-    super.initState();
   }
 
   bool _scrollNotification(ScrollNotification notification) {
@@ -105,80 +113,76 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 20),
           Container(
-            child: Center(
-              child: Container(
-                height: 300,
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: NotificationListener<ScrollNotification>(
-                  onNotification: _scrollNotification,
-                  child: ListView(
-                    controller: listScrollController,
-                    scrollDirection: Axis.horizontal,
-                    children: data.map((item) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NewListPage(
-                                listName: 'List for ${item["name"]}',
-                              ),
-                            ),
-                          );
-                        },
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 200),
-                          transform: Matrix4.rotationZ(
-                              scrollDirection == ScrollDirection.forward
-                                  ? 0.07
-                                  : scrollDirection == ScrollDirection.reverse
-                                      ? -0.07
-                                      : 0),
-                          width: 220,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 16),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.amber[400],
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(-6, 4),
-                                blurRadius: 10,
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Item: ${item["name"]}',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                'Go to List',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+            height: 300,
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: NotificationListener<ScrollNotification>(
+              onNotification: _scrollNotification,
+              child: ListView(
+                controller: listScrollController,
+                scrollDirection: Axis.horizontal,
+                children: data.map((item) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NewListPage(
+                            listName: 'List for ${item["name"]}',
                           ),
                         ),
                       );
-                    }).toList(),
-                  ),
-                ),
+                    },
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      transform: Matrix4.rotationZ(
+                          scrollDirection == ScrollDirection.forward
+                              ? 0.07
+                              : scrollDirection == ScrollDirection.reverse
+                                  ? -0.07
+                                  : 0),
+                      width: 220,
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.amber[400],
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(-6, 4),
+                            blurRadius: 10,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Item: ${item["name"]}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Go to List',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:burgan_bill/Service/client.dart';
+import 'package:burgan_bill/models/subscription.dart';
 import 'package:burgan_bill/models/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -12,11 +13,7 @@ class AuthServices {
       "email": email,
       "password": password,
     });
-    if (response.statusCode != 200) {
-      throw response.data is Map
-          ? response.data['message']
-          : "Unexpected server error";
-    }
+
     var user = User.fromJson(response.data['data']);
     print(response.statusCode);
 
@@ -43,17 +40,18 @@ class AuthServices {
     return user;
   }
 
-  // Future<void> updateUserProfile(User user) async {
-  //   final data = {
-  //     'username': user.username,
-  //     if (user.image != null) 'image': user.image,
-  //   };
+  Future<User> otp({
+    required String email,
+    required String otp,
+  }) async {
+    Response response = await Client.dio.post('/otp', data: {
+      "user": email,
+      "otp": otp,
+    });
 
-  //   try {
-  //     final response = await Client.dio.put('/user/${user.id}', data: data);
-  //     print("Profile update response: ${response.data}");
-  //   } on DioError catch (error) {
-  //     print("Error updating profile: ${error.response?.data ?? error.message}");
-  //   }
-  // }
+    var user = User.fromJson(response.data['data']);
+    print(response.statusCode);
+
+    return user;
+  }
 }
