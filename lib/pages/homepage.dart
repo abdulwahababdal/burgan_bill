@@ -1,3 +1,4 @@
+
 import 'package:burgan_bill/testdata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -213,8 +214,3 @@ class NewListPage extends StatelessWidget {
         child: Text(
           'Displaying $listName',
           style: TextStyle(fontSize: 24, color: Colors.amber[400]),
-        ),
-      ),
-    );
-  }
-}
