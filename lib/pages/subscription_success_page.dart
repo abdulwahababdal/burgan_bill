@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SubscriptionSuccessPage extends StatelessWidget {
-  const SubscriptionSuccessPage({super.key});
+  const SubscriptionSuccessPage({key});
 
   @override
   Widget build(BuildContext context) {

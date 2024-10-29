@@ -7,7 +7,7 @@ class BillAmountPage extends StatelessWidget {
   final double amountDue;
 
   const BillAmountPage({
-    super.key,
+    key,
     required this.serviceName,
     required this.logoPath,
     required this.amountDue,

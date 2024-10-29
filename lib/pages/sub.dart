@@ -7,7 +7,7 @@ class SubscriptionPage extends StatefulWidget {
   final List<SubscriptionOption> options;
 
   const SubscriptionPage({
-    super.key,
+    key,
     required this.serviceName,
     required this.logoPath,
     required this.options,
@@ -130,7 +130,7 @@ class SubscriptionOptionCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const SubscriptionOptionCard({
-    super.key,
+    key,
     required this.title,
     required this.price,
     required this.features,

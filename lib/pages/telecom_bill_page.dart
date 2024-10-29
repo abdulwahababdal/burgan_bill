@@ -7,7 +7,7 @@ class TelecomBillPage extends StatefulWidget {
   final double amountDue;
 
   const TelecomBillPage({
-    super.key,
+    key,
     required this.serviceName,
     required this.logoPath,
     required this.amountDue,
