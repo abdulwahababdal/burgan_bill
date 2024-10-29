@@ -14,6 +14,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  MyApp(Type otpPage);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
