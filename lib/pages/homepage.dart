@@ -1,6 +1,12 @@
+
+import 'package:burgan_bill/pages/subscription_selection_page.dart';
+=======
+
 import 'package:burgan_bill/testdata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+import 'settings_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,8 +15,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var itemList = data;
+
+  var listScrollController = ScrollController();
+  var scrollDirection = ScrollDirection.idle;
+=======
   final listScrollController = ScrollController();
   ScrollDirection scrollDirection = ScrollDirection.idle;
+
   int _selectedIndex = 0;
 
   @override
@@ -36,6 +47,23 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+    switch (index) {
+      case 0:
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TelecomAndSubscriptionSelectionPage()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SettingsPage()),
+        );
+        break;
+    }
   }
 
   @override

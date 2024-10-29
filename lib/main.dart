@@ -2,6 +2,7 @@ import 'package:burgan_bill/pages/homepage.dart';
 import 'package:burgan_bill/pages/signin.dart';
 import 'package:burgan_bill/pages/signup.dart';
 import 'package:burgan_bill/pages/splash_screen.dart';
+import 'package:burgan_bill/pages/subscription_selection_page.dart';
 import 'package:burgan_bill/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -63,11 +64,15 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(
         path: '/',
+
+        builder: (context, state) => TelecomAndSubscriptionSelectionPage(),
+
         builder: (context, state) => SplashPage(),
       ),
       GoRoute(
         path: '/signin',
         builder: (context, state) => SigninPage(),
+
       ),
       GoRoute(
         path: '/home',
