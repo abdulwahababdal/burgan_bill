@@ -1,7 +1,9 @@
-
+import 'package:burgan_bill/pages/subscription_selection_page.dart';
 import 'package:burgan_bill/testdata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+import 'settings_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,7 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var itemList = data;
-  var listScrollController = new ScrollController();
+  var listScrollController = ScrollController();
   var scrollDirection = ScrollDirection.idle;
   int _selectedIndex = 0;
 
@@ -37,14 +39,31 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+    switch (index) {
+      case 0:
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TelecomAndSubscriptionSelectionPage()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SettingsPage()),
+        );
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850], // Grey background
+      backgroundColor: Colors.grey[850],
       appBar: AppBar(
-        backgroundColor: Colors.grey[900], // Darker AppBar
+        backgroundColor: Colors.grey[900],
         title: Text(
           "Dashboard",
           style: TextStyle(
@@ -72,7 +91,7 @@ class _HomePageState extends State<HomePage> {
             width: 400,
             margin: EdgeInsets.only(top: 20),
             decoration: BoxDecoration(
-              color: Colors.grey[700], // Dark grey container
+              color: Colors.grey[700],
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.5),
@@ -84,7 +103,7 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(30),
             ),
           ),
-          SizedBox(height: 20), // Spacing between widgets
+          SizedBox(height: 20),
           Container(
             child: Center(
               child: Container(
@@ -166,7 +185,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[900], // Darker bottom navigation
+        backgroundColor: Colors.grey[900],
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -198,8 +217,7 @@ class NewListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Colors.grey[850], // Lighter grey background for new list page
+      backgroundColor: Colors.grey[850],
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
         title: Text(
@@ -214,3 +232,8 @@ class NewListPage extends StatelessWidget {
         child: Text(
           'Displaying $listName',
           style: TextStyle(fontSize: 24, color: Colors.amber[400]),
+        ),
+      ),
+    );
+  }
+}

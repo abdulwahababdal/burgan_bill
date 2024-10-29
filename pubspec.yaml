@@ -1,6 +1,6 @@
 name: burgan_bill
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
@@ -22,7 +22,6 @@ dependencies:
   video_player: ^2.9.2
   url_launcher: ^6.3.1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -31,3 +30,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/disney.png
+    - assets/images/netflix.png
+    - assets/images/hbo.png
+    - assets/images/prime.png
