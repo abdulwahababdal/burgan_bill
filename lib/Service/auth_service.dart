@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthServices {
-  Future<User> signup({
+  Future<User> signupAPI({
     required String email,
     required String password,
   }) async {

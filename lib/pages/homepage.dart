@@ -21,8 +21,8 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Provider.of<AuthProvider>(context, listen: false).logout();
-                // context.go('/');
+                Provider.of<AuthProvider>(context, listen: false).logout();
+                context.go('/');
               },
               child: Text('logout'),
             ),

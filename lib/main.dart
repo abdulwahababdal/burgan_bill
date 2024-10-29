@@ -12,13 +12,14 @@ void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensures Flutter is initialized before calling async code
   var authProvider = AuthProvider();
-
-  // await authProvider.initializeAuth(); // Initialize authentication
+  await authProvider.initializeAuth(); // Initialize authentication
   // authProvider.isAuth(); // Check if user is authenticated
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => authProvider,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthProvider>(create: (_) => authProvider),
+      ],
       child: MyApp(),
     ),
   );

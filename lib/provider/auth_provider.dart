@@ -13,7 +13,7 @@ class AuthProvider extends ChangeNotifier {
     required String email,
     required String password,
   }) async {
-    var user = await AuthServices().signup(
+    var user = await AuthServices().signupAPI(
       email: email,
       password: password,
     );
@@ -25,25 +25,32 @@ class AuthProvider extends ChangeNotifier {
         "Bearer ${user!.token}";
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("user", user!.username);
-    prefs.setString("token", user!.token);
+    prefs.setString("user", user.username);
+    prefs.setString("token", user.token);
   }
 
-  Future<dynamic> signin({
+  Future<bool> signin({
     required String email,
     required String password,
   }) async {
-    // Calling the AuthService to handle sign-in with email and password.
     var user = await AuthServices().signin(
       email: email,
       password: password,
     );
 
-    // Uncomment the line below if you need to save or use the token directly.
-    // _setToken(token);
+    if (user != null) {
+      Client.dio.options.headers[HttpHeaders.authorizationHeader] =
+          "Bearer ${user.token}";
 
-    // Notify listeners to update UI after signing in.
-    notifyListeners();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("user", user.username);
+      prefs.setString("token", user.token);
+
+      notifyListeners();
+      return true; // Sign-in successful
+    } else {
+      return false; // Sign-in failed
+    }
   }
 
   void _setToken(String token) async {
@@ -52,11 +59,20 @@ class AuthProvider extends ChangeNotifier {
     prefs.setString("token", user!.token);
   }
 
-  // Future<void> _getToken() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   token = prefs.getString("token") ?? "";
-  //   notifyListeners();
-  // }
+  Future<void> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var email = prefs.getString("email");
+    var token = prefs.getString("token");
+    if (email == null || token == null) {
+      prefs.remove('email');
+      prefs.remove('token');
+      return;
+    }
+    Client.dio.options.headers[HttpHeaders.authorizationHeader] =
+        "Bearer ${user!.token}";
+
+    notifyListeners();
+  }
 
   // bool isAuth() {
   //   if (token.isNotEmpty && Jwt.getExpiryDate(token)!.isAfter(DateTime.now())) {
@@ -71,14 +87,15 @@ class AuthProvider extends ChangeNotifier {
   //   return false;
   // }
 
-  // Future<void> initializeAuth() async {
-  //   await _getToken();
-  // }
+  Future<void> initializeAuth() async {
+    await getToken();
+  }
 
-  // void logout() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.remove("user");
-  //   token = "";
-  //   notifyListeners();
-  // }
+  void logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('email');
+    prefs.remove('token');
+    //   token = "";
+    notifyListeners();
+  }
 }

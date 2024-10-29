@@ -1,5 +1,6 @@
 import 'package:burgan_bill/models/user.dart';
 import 'package:burgan_bill/provider/auth_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -119,15 +120,23 @@ class SigninPage extends StatelessWidget {
                     );
 
                     if (result) {
+                      var user = context.read<AuthProvider>().user;
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("You are Signed in")),
+                        const SnackBar(
+                            content:
+                                Text("You are Signed in")), // ${user!.username}
                       );
                       context.go('/home');
                     } else {
                       showError(context, "Email and/or Password is incorrect");
                     }
-                  } catch (e) {
-                    showError(context, e.toString());
+                  } on DioException catch (e) {
+                    if (e.response == null) return;
+                    if (e.response!.data == null) return;
+
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(e.response!.data['message'] ??
+                            "Unexpected error")));
                   }
                 },
                 child: const Text(
