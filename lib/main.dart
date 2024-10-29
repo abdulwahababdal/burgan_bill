@@ -7,12 +7,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensures Flutter is initialized before calling async code
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString("user", "fakeuser");
+  prefs.setString(
+      "token", "82|7OMNhk6woETGj7Se2R7Qhw8D2ayrTwRKZxQkaKr661e6a93f");
+
   var authProvider = AuthProvider();
-  await authProvider.initializeAuth(); // Initialize authentication
+  await authProvider.getToken(); // Initialize authentication
   // authProvider.isAuth(); // Check if user is authenticated
 
   runApp(
@@ -56,12 +63,12 @@ class MyApp extends StatelessWidget {
 
   final GoRouter _router = GoRouter(
     routes: [
-      // GoRoute(
-      //   path: '/',
-      //   builder: (context, state) => SplashPage(),
-      // ),
       GoRoute(
         path: '/',
+        builder: (context, state) => SplashPage(),
+      ),
+      GoRoute(
+        path: '/signin',
         builder: (context, state) => SigninPage(),
       ),
       GoRoute(
