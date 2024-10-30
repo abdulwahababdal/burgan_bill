@@ -13,9 +13,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final listScrollController = ScrollController();
   ScrollDirection scrollDirection = ScrollDirection.idle;
-  var itemList = data;
 
-  int _selectedIndex = 0;
+  final List<Map<String, String>> itemList = [
+    {'name': 'Telecom Service'},
+    {'name': 'Subscription Service'},
+    {'name': 'Coming Soon'}
+  ];
 
   final List<Map<String, String>> transactionHistory = [
     {'date': '2023-10-01', 'amount': '-\$20', 'description': 'Grocery'},
@@ -44,16 +47,25 @@ class _HomePageState extends State<HomePage> {
     return true;
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _onCardTap(String itemName) {
+    switch (itemName) {
+      case 'Telecom Service':
+        context.go('/telecom-selection'); // Navigate to telecom selection page
+        break;
+      case 'Subscription Service':
+        context.go(
+            '/subscription-selection'); // Navigate to subscription selection page
+        break;
+      case 'Coming Soon':
+        // No action or show a message
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
         title: Text(
@@ -105,12 +117,9 @@ class _HomePageState extends State<HomePage> {
                 child: ListView(
                   controller: listScrollController,
                   scrollDirection: Axis.horizontal,
-                  children: data.map((item) {
+                  children: itemList.map((item) {
                     return GestureDetector(
-                      onTap: () {
-                        context.go('/list',
-                            extra: {'listName': 'List for ${item["name"]}'});
-                      },
+                      onTap: () => _onCardTap(item['name']!),
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 200),
                         transform: Matrix4.rotationZ(
@@ -140,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Item: ${item["name"]}',
+                              item['name']!,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -150,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              'Go to List',
+                              'Explore',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
@@ -220,81 +229,6 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 20),
           ],
-        ),
-      ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: Colors.grey[900],
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Dashboard',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.account_balance_wallet),
-      //       label: 'Subscriptions',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.settings),
-      //       label: 'Settings',
-      //     ),
-      //   ],
-      //   currentIndex: _selectedIndex,
-      //   selectedItemColor: Colors.amber[400],
-      //   unselectedItemColor: Colors.grey[500],
-      //   onTap: _onItemTapped,
-      // ),
-    );
-  }
-}
-
-class NewListPage extends StatelessWidget {
-  final String listName;
-
-  NewListPage({required this.listName});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[850],
-      appBar: AppBar(
-        backgroundColor: Colors.grey[900],
-        title: Text(
-          listName,
-          style: TextStyle(
-            color: Colors.amber[400],
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      body: Center(
-        child: Text(
-          'Displaying $listName',
-          style: TextStyle(fontSize: 24, color: Colors.amber[400]),
-        ),
-      ),
-    );
-  }
-}
-
-class ChartPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.grey[900],
-        title: Text(
-          'Chart Page',
-          style: TextStyle(
-            color: Colors.amber[400],
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      body: Center(
-        child: Text(
-          'Chart Page Content',
-          style: TextStyle(fontSize: 24, color: Colors.amber[400]),
         ),
       ),
     );

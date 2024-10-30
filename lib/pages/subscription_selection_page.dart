@@ -88,8 +88,8 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Zain',
                   logoPath: 'assets/images/zain.png',
                   onTap: () {
-                    context.go(
-                      '/subscription',
+                    context.push(
+                      '/telecom-bill',
                       extra: {
                         'serviceName': 'Zain',
                         'logoPath': 'assets/images/zain.png',
@@ -111,8 +111,8 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Ooredoo',
                   logoPath: 'assets/images/ooredoo.png',
                   onTap: () {
-                    context.go(
-                      '/subscription',
+                    context.push(
+                      '/telecom-bill',
                       extra: {
                         'serviceName': 'Ooredoo',
                         'logoPath': 'assets/images/ooredoo.png',
@@ -134,8 +134,8 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'STC',
                   logoPath: 'assets/images/stc.png',
                   onTap: () {
-                    context.go(
-                      '/subscription',
+                    context.push(
+                      '/telecom-bill',
                       extra: {
                         'serviceName': 'STC',
                         'logoPath': 'assets/images/stc.png',
@@ -168,7 +168,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Netflix',
                   logoPath: 'assets/images/netflix.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/subscription',
                       extra: {
                         'serviceName': 'Netflix',
@@ -179,8 +179,8 @@ class _TelecomAndSubscriptionSelectionPageState
                             price: '3.00 KWD per month',
                             features: [
                               'HD available',
-                              '1 screen',
-                              'Cancel anytime'
+                              'Watch on 1 screen',
+                              'Cancel anytime',
                             ],
                           ),
                           SubscriptionOption(
@@ -188,8 +188,8 @@ class _TelecomAndSubscriptionSelectionPageState
                             price: '30.00 KWD per year',
                             features: [
                               'HD available',
-                              '2 screens',
-                              'Cancel anytime'
+                              'Watch on 2 screens',
+                              'Cancel anytime',
                             ],
                           ),
                         ],
@@ -204,7 +204,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Disney+',
                   logoPath: 'assets/images/disney.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/subscription',
                       extra: {
                         'serviceName': 'Disney+',
@@ -213,12 +213,20 @@ class _TelecomAndSubscriptionSelectionPageState
                           SubscriptionOption(
                             title: 'Monthly Subscription',
                             price: '2.70 KWD per month',
-                            features: ['4K UHD', '2 screens', 'Cancel anytime'],
+                            features: [
+                              '4K UHD available',
+                              'Watch on 2 screens',
+                              'Cancel anytime',
+                            ],
                           ),
                           SubscriptionOption(
                             title: 'Yearly Subscription',
                             price: '27.00 KWD per year',
-                            features: ['4K UHD', '4 screens', 'Cancel anytime'],
+                            features: [
+                              '4K UHD available',
+                              'Watch on 4 screens',
+                              'Cancel anytime',
+                            ],
                           ),
                         ],
                       },
@@ -226,32 +234,85 @@ class _TelecomAndSubscriptionSelectionPageState
                   },
                   scrollDirection: _scrollDirectionSubscription,
                 ),
+                const SizedBox(width: 10),
+                _buildServiceCard(
+                  context,
+                  serviceName: 'HBO',
+                  logoPath: 'assets/images/hbo.png',
+                  onTap: () {
+                    context.push(
+                      '/subscription',
+                      extra: {
+                        'serviceName': 'HBO',
+                        'logoPath': 'assets/images/hbo.png',
+                        'options': [
+                          SubscriptionOption(
+                            title: 'Monthly Subscription',
+                            price: '4.50 KWD per month',
+                            features: [
+                              'HD available',
+                              'Watch on 3 screens',
+                              'Cancel anytime',
+                            ],
+                          ),
+                          SubscriptionOption(
+                            title: 'Yearly Subscription',
+                            price: '45.00 KWD per year',
+                            features: [
+                              'HD available',
+                              'Watch on 5 screens',
+                              'Cancel anytime',
+                            ],
+                          ),
+                        ],
+                      },
+                    );
+                  },
+                  scrollDirection: _scrollDirectionSubscription,
+                ),
+                const SizedBox(width: 10),
+                _buildServiceCard(
+                  context,
+                  serviceName: 'Amazon Prime',
+                  logoPath: 'assets/images/prime.png',
+                  onTap: () {
+                    context.push(
+                      '/subscription',
+                      extra: {
+                        'serviceName': 'Amazon Prime',
+                        'logoPath': 'assets/images/prime.png',
+                        'options': [
+                          SubscriptionOption(
+                            title: 'Monthly Subscription',
+                            price: '3.90 KWD per month',
+                            features: [
+                              'HD available',
+                              'Watch on 2 screens',
+                              'Cancel anytime',
+                            ],
+                          ),
+                          SubscriptionOption(
+                            title: 'Yearly Subscription',
+                            price: '36.00 KWD per year',
+                            features: [
+                              'HD available',
+                              'Watch on 4 screens',
+                              'Cancel anytime',
+                            ],
+                          ),
+                        ],
+                      },
+                    );
+                  },
+                  scrollDirection: _scrollDirectionSubscription,
+                ),
+                const SizedBox(width: 10),
+                _buildPlaceholderCard(context,
+                    scrollDirection: _scrollDirectionSubscription),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: Colors.orange,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: 24,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
       ),
     );
   }
