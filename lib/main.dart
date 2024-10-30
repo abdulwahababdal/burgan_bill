@@ -4,6 +4,7 @@ import 'package:burgan_bill/pages/settings_page.dart';
 import 'package:burgan_bill/pages/signin.dart';
 import 'package:burgan_bill/pages/signup.dart';
 import 'package:burgan_bill/pages/splash_screen.dart';
+import 'package:burgan_bill/pages/sub.dart';
 import 'package:burgan_bill/pages/subscription_selection_page.dart';
 import 'package:burgan_bill/provider/auth_provider.dart';
 import 'package:burgan_bill/widgets/dashboard_widget.dart';
@@ -87,10 +88,21 @@ class MyApp extends StatelessWidget {
         path: '/dashboard',
         builder: (context, state) => Dashboard(),
       ),
+      GoRoute(
+        path: '/subscription',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return SubscriptionPage(
+            serviceName: extra?['serviceName'] ?? 'Service',
+            logoPath: extra?['logoPath'] ?? '',
+            options: extra?['options'] ?? [],
+          );
+        },
+      ),
 
       // GoRoute(
       //   path: '/subscriptions',
-      //   builder: (context, state) => TelecomAndSubscriptionSelectionPage(),
+      //   builder: (context, state) => SubscriptionPage(),
       // ),
       // GoRoute(
       //   path: '/tips',

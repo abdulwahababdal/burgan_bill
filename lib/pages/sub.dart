@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'subscription_success_page.dart';
 
 class SubscriptionPage extends StatefulWidget {
@@ -29,7 +30,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            context.pop();
           },
         ),
       ),
@@ -38,7 +39,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Service logo at the top
             Center(
               child: Image.asset(
                 widget.logoPath,
@@ -46,7 +46,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ),
             ),
             const SizedBox(height: 20),
-            // Subscription Options
             const Text(
               'Select Your Plan',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -73,7 +72,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               );
             }).toList(),
             const SizedBox(height: 20),
-            // Auto-Renewal Switch
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -89,15 +87,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ],
             ),
             const Spacer(),
-            // Subscribe Button
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SubscriptionSuccessPage(),
-                  ),
-                );
+                context.push('/subscription-success');
               },
               child: const Text('Subscribe'),
             ),
@@ -108,7 +100,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
   }
 }
 
-// Subscription Option Model
 class SubscriptionOption {
   final String title;
   final String price;
@@ -121,7 +112,6 @@ class SubscriptionOption {
   });
 }
 
-// Subscription Option Card
 class SubscriptionOptionCard extends StatelessWidget {
   final String title;
   final String price;

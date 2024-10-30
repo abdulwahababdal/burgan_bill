@@ -208,7 +208,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 1 screen',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                           SubscriptionOption(
@@ -217,7 +217,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 2 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                         ],
@@ -244,7 +244,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               '4K UHD available',
                               'Watch on 2 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                           SubscriptionOption(
@@ -253,7 +253,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               '4K UHD available',
                               'Watch on 4 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                         ],
@@ -280,7 +280,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 3 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                           SubscriptionOption(
@@ -289,7 +289,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 5 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                         ],
@@ -316,7 +316,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 2 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                           SubscriptionOption(
@@ -325,7 +325,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 4 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                         ],
@@ -342,27 +342,6 @@ class _TelecomAndSubscriptionSelectionPageState
           ),
         ],
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: Colors.grey[900],
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Home',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.account_balance_wallet),
-      //       label: 'Subscriptions',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.settings),
-      //       label: 'Settings',
-      //     ),
-      //   ],
-      //   currentIndex: _selectedIndex,
-      //   selectedItemColor: Colors.amber[400],
-      //   unselectedItemColor: Colors.grey[500],
-      //   onTap: _onItemTapped,
-      // ),
     );
   }
 

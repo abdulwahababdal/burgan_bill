@@ -17,10 +17,14 @@ class SigninPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Sign in"),
-        backgroundColor: Colors.grey[900],
+        centerTitle: true,
+        title: const Text(
+          "Sign in",
+          style: TextStyle(color: Colors.amber),
+        ),
+        backgroundColor: Colors.black,
       ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -38,7 +42,7 @@ class SigninPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Welcome to Meditation App',
+                'Burgan Bill',
                 style: TextStyle(
                   color: Colors.amber,
                   fontSize: 24,
@@ -48,10 +52,10 @@ class SigninPage extends StatelessWidget {
               const SizedBox(height: 30),
               TextField(
                 controller: usernameController,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: Colors.grey[800],
+                  fillColor: Colors.white,
                   hintText: "Username / Email",
                   hintStyle: const TextStyle(color: Colors.grey),
                   prefixIcon:
@@ -73,10 +77,10 @@ class SigninPage extends StatelessWidget {
               TextField(
                 controller: passwordController,
                 obscureText: true,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: Colors.grey[800],
+                  fillColor: Colors.white,
                   hintText: "Password",
                   hintStyle: const TextStyle(color: Colors.grey),
                   prefixIcon:
@@ -97,7 +101,7 @@ class SigninPage extends StatelessWidget {
               const SizedBox(height: 30),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.amber,
+                  backgroundColor: Colors.black,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                   shape: RoundedRectangleBorder(
@@ -124,8 +128,6 @@ class SigninPage extends StatelessWidget {
                           content: Text("Otp was sent to your email")),
                     );
                     context.goNamed('otp', extra: usernameController.text);
-
-                    //   context.go('/otp', extra: usernameController.text);
                   } on DioException catch (e) {
                     if (e.response == null || e.response!.data == null) return;
 
@@ -136,7 +138,7 @@ class SigninPage extends StatelessWidget {
                 },
                 child: const Text(
                   "Login",
-                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  style: TextStyle(fontSize: 18, color: Colors.amber),
                 ),
               ),
               const SizedBox(height: 10),
