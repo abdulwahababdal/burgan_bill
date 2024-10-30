@@ -1,8 +1,12 @@
+import 'package:burgan_bill/main.dart';
 import 'package:burgan_bill/pages/homepage.dart';
 import 'package:burgan_bill/pages/subscription_selection_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:burgan_bill/provider/theme_provider.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -10,7 +14,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _isDarkMode = false;
   int _selectedIndex = 2;
   String? _selectedAccountType;
   String _email = '';
@@ -18,11 +21,10 @@ class _SettingsPageState extends State<SettingsPage> {
   final TextEditingController _emailController = TextEditingController();
 
   // Bill Reminder-specific variables
-  String? _selectedBillType; // Selected bill type for reminder
+  String? _selectedBillType;
   bool _enableBillReminder = false;
   String? _reminderFrequency = '1 day before';
-  Map<String, dynamic> _billReminders =
-      {}; // Stores reminders for each bill type
+  Map<String, dynamic> _billReminders = {};
 
   // Telecom-specific variables
   String? _selectedTelecomProvider;
@@ -30,7 +32,6 @@ class _SettingsPageState extends State<SettingsPage> {
   List<Map<String, String>> _telecomAccounts = [];
   final TextEditingController _phoneController = TextEditingController();
 
-  // Map to hold account types and corresponding image paths
   final Map<String, String> _accountIcons = {
     'HBO': 'assets/images/hbo.png',
     'Netflix': 'assets/images/netflix.png',
@@ -38,7 +39,6 @@ class _SettingsPageState extends State<SettingsPage> {
     'Amazon Prime': 'assets/images/prime.png',
   };
 
-  // Map to hold telecom providers and corresponding image paths
   final Map<String, String> _telecomIcons = {
     'Zain': 'assets/images/zain.png',
     'Ooredoo': 'assets/images/ooredoo.png',
@@ -54,7 +54,6 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> _loadPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _isDarkMode = prefs.getBool('isDarkMode') ?? false;
       String? savedAccounts = prefs.getString('accounts');
       if (savedAccounts != null) {
         List<dynamic> accountList = json.decode(savedAccounts);
@@ -71,7 +70,6 @@ class _SettingsPageState extends State<SettingsPage> {
             .toList();
       }
 
-      // Load bill reminders
       String? savedBillReminders = prefs.getString('billReminders');
       if (savedBillReminders != null) {
         _billReminders = json.decode(savedBillReminders);
@@ -81,20 +79,12 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<void> _savePreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isDarkMode', _isDarkMode);
     String encodedAccounts = json.encode(_accounts);
     await prefs.setString('accounts', encodedAccounts);
     String encodedTelecomAccounts = json.encode(_telecomAccounts);
     await prefs.setString('telecomAccounts', encodedTelecomAccounts);
     String encodedBillReminders = json.encode(_billReminders);
     await prefs.setString('billReminders', encodedBillReminders);
-  }
-
-  void _toggleDarkMode(bool value) {
-    setState(() {
-      _isDarkMode = value;
-    });
-    _savePreferences();
   }
 
   void _toggleBillReminder(bool value) {
@@ -124,30 +114,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _logout() {
-    Navigator.pop(context);
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => TelecomAndSubscriptionSelectionPage()),
-        );
-        break;
-      case 2:
-        break;
-    }
+    context.go('/signin');
   }
 
   void _addAccount() {
@@ -182,14 +149,17 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      backgroundColor: _isDarkMode ? Colors.grey[900] : Colors.white,
+      backgroundColor:
+          themeProvider.isDarkMode ? Colors.grey[900] : Colors.white,
       appBar: AppBar(
         title: Text(
           'Settings',
           style: TextStyle(color: Colors.amber[400]),
         ),
-        backgroundColor: _isDarkMode ? Colors.black : Colors.grey[900],
+        backgroundColor: themeProvider.isDarkMode ? Colors.black : Colors.white,
         centerTitle: true,
       ),
       body: ListView(
@@ -198,22 +168,17 @@ class _SettingsPageState extends State<SettingsPage> {
             activeColor: Colors.amber[400],
             title: Text(
               'Dark Mode',
-              style:
-                  TextStyle(color: _isDarkMode ? Colors.white : Colors.black),
+              style: TextStyle(
+                  color:
+                      themeProvider.isDarkMode ? Colors.white : Colors.black),
             ),
-            value: _isDarkMode,
-            onChanged: _toggleDarkMode,
-          ),
-          ListTile(
-            leading: Icon(Icons.logout, color: Colors.redAccent),
-            title: Text(
-              'Logout',
-              style:
-                  TextStyle(color: _isDarkMode ? Colors.white : Colors.black),
-            ),
-            onTap: _logout,
+            value: themeProvider.isDarkMode,
+            onChanged: (value) {
+              themeProvider.toggleTheme();
+            },
           ),
           Card(
+            color: themeProvider.isDarkMode ? Colors.grey[800] : Colors.white,
             margin: EdgeInsets.all(12.0),
             child: Column(
               children: [
@@ -224,12 +189,17 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: _isDarkMode ? Colors.white : Colors.black),
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black),
                   ),
                 ),
                 DropdownButton<String>(
                   hint: Text("Select Account Type"),
                   value: _selectedAccountType,
+                  dropdownColor: themeProvider.isDarkMode
+                      ? Colors.grey[800]
+                      : Colors.white,
                   items: ['HBO', 'Netflix', 'Disney+', 'Amazon Prime']
                       .map((String account) {
                     return DropdownMenuItem<String>(
@@ -251,6 +221,14 @@ class _SettingsPageState extends State<SettingsPage> {
                       decoration: InputDecoration(
                         labelText: 'Enter Email',
                         hintText: 'example@example.com',
+                        labelStyle: TextStyle(
+                            color: themeProvider.isDarkMode
+                                ? Colors.white70
+                                : Colors.black),
+                        hintStyle: TextStyle(
+                            color: themeProvider.isDarkMode
+                                ? Colors.white38
+                                : Colors.grey),
                       ),
                       onChanged: (value) {
                         _email = value;
@@ -267,7 +245,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       title: Text(
                         '${account['email']}',
                         style: TextStyle(
-                            color: _isDarkMode ? Colors.white : Colors.black),
+                            color: themeProvider.isDarkMode
+                                ? Colors.white
+                                : Colors.black),
                       ),
                       leading: Image.asset(
                         _accountIcons[account['type']]!,
@@ -279,7 +259,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           Card(
-            color: _isDarkMode ? Colors.grey[800] : Colors.white,
+            color: themeProvider.isDarkMode ? Colors.grey[800] : Colors.white,
             margin: EdgeInsets.all(12.0),
             child: Column(
               children: [
@@ -290,12 +270,17 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: _isDarkMode ? Colors.white : Colors.black),
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black),
                   ),
                 ),
                 DropdownButton<String>(
                   hint: Text("Select Telecom Provider"),
                   value: _selectedTelecomProvider,
+                  dropdownColor: themeProvider.isDarkMode
+                      ? Colors.grey[800]
+                      : Colors.white,
                   items: ['Zain', 'Ooredoo', 'STC'].map((String provider) {
                     return DropdownMenuItem<String>(
                       value: provider,
@@ -315,6 +300,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     decoration: InputDecoration(
                       labelText: 'Enter 8-digit Phone Number',
                       hintText: '12345678',
+                      labelStyle: TextStyle(
+                          color: themeProvider.isDarkMode
+                              ? Colors.white70
+                              : Colors.black),
+                      hintStyle: TextStyle(
+                          color: themeProvider.isDarkMode
+                              ? Colors.white38
+                              : Colors.grey),
                     ),
                     maxLength: 8,
                     keyboardType: TextInputType.number,
@@ -333,7 +326,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       title: Text(
                         '${telecom['phone']}',
                         style: TextStyle(
-                            color: _isDarkMode ? Colors.white : Colors.black),
+                            color: themeProvider.isDarkMode
+                                ? Colors.white
+                                : Colors.black),
                       ),
                       leading: Image.asset(
                         _telecomIcons[telecom['provider']]!,
@@ -345,6 +340,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           Card(
+            color: themeProvider.isDarkMode ? Colors.grey[800] : Colors.white,
             margin: EdgeInsets.all(12.0),
             child: Column(
               children: [
@@ -355,12 +351,17 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: _isDarkMode ? Colors.white : Colors.black),
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black),
                   ),
                 ),
                 DropdownButton<String>(
                   hint: Text("Select Bill Type"),
                   value: _selectedBillType,
+                  dropdownColor: themeProvider.isDarkMode
+                      ? Colors.grey[800]
+                      : Colors.white,
                   items: ['Netflix', 'Zain', 'Ooredoo', 'STC', 'HBO', 'Disney+']
                       .map((String bill) {
                     return DropdownMenuItem<String>(
@@ -386,7 +387,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     title: Text(
                       'Enable Reminder for $_selectedBillType',
                       style: TextStyle(
-                          color: _isDarkMode ? Colors.white : Colors.black),
+                          color: themeProvider.isDarkMode
+                              ? Colors.white
+                              : Colors.black),
                     ),
                     value: _enableBillReminder,
                     onChanged: _toggleBillReminder,
@@ -397,6 +400,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: DropdownButton<String>(
                         hint: Text("Select Reminder Frequency"),
                         value: _reminderFrequency,
+                        dropdownColor: themeProvider.isDarkMode
+                            ? Colors.grey[800]
+                            : Colors.white,
                         items: [
                           '1 day before',
                           '3 days before',
@@ -414,6 +420,18 @@ class _SettingsPageState extends State<SettingsPage> {
               ],
             ),
           ),
+
+          ListTile(
+            leading: Icon(Icons.logout, color: Colors.redAccent),
+            title: Text(
+              'Logout',
+              style: TextStyle(
+                  color:
+                      themeProvider.isDarkMode ? Colors.white : Colors.black),
+            ),
+            onTap: _logout,
+          ),
+
         ],
       ),
     );
