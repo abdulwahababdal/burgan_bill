@@ -4,14 +4,16 @@ import 'subscription_success_page.dart';
 class SubscriptionPage extends StatefulWidget {
   final String serviceName;
   final String logoPath;
+
   final List<SubscriptionOption> options;
 
   const SubscriptionPage({
     key,
     required this.serviceName,
     required this.logoPath,
-    required this.options,
-  });
+    this.options =
+        const [], // Default to an empty list if options is not provided
+  }) : super(key: key);
 
   @override
   _SubscriptionPageState createState() => _SubscriptionPageState();
