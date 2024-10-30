@@ -142,7 +142,7 @@ class SigninPage extends StatelessWidget {
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
-                  context.goNamed('signup');
+                  context.goNamed('otp');
                 },
                 child: const Text(
                   "Don't have an account? Sign Up",
