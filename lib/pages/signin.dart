@@ -11,16 +11,20 @@ class SigninPage extends StatelessWidget {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Color usernameBorderColor = const Color(0xFF005BAA);
-  Color passwordBorderColor = const Color(0xFF005BAA);
+  Color usernameBorderColor = Colors.amber;
+  Color passwordBorderColor = Colors.amber;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE5F1F9),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Sign in"),
-        backgroundColor: const Color(0xFF005BAA),
+        centerTitle: true,
+        title: const Text(
+          "Sign in",
+          style: TextStyle(color: Colors.amber),
+        ),
+        backgroundColor: Colors.black,
       ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -38,9 +42,9 @@ class SigninPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Welcome to Meditation App',
+                'Burgan Bill',
                 style: TextStyle(
-                  color: Color(0xFF005BAA),
+                  color: Colors.amber,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -54,15 +58,16 @@ class SigninPage extends StatelessWidget {
                   fillColor: Colors.white,
                   hintText: "Username / Email",
                   hintStyle: const TextStyle(color: Colors.grey),
-                  prefixIcon: Icon(Icons.account_circle, color: Colors.grey),
+                  prefixIcon:
+                      const Icon(Icons.account_circle, color: Colors.grey),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: usernameBorderColor),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                      color: Color(0xFF005BAA),
+                    borderSide: BorderSide(
+                      color: Colors.amber,
                       width: 2,
                     ),
                   ),
@@ -78,15 +83,16 @@ class SigninPage extends StatelessWidget {
                   fillColor: Colors.white,
                   hintText: "Password",
                   hintStyle: const TextStyle(color: Colors.grey),
-                  prefixIcon: Icon(Icons.lock_outline, color: Colors.grey),
+                  prefixIcon:
+                      const Icon(Icons.lock_outline, color: Colors.grey),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: passwordBorderColor),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                      color: Color(0xFF005BAA),
+                    borderSide: BorderSide(
+                      color: Colors.amber,
                       width: 2,
                     ),
                   ),
@@ -95,7 +101,7 @@ class SigninPage extends StatelessWidget {
               const SizedBox(height: 30),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF005BAA),
+                  backgroundColor: Colors.black,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                   shape: RoundedRectangleBorder(
@@ -103,7 +109,6 @@ class SigninPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () async {
-                  // Validate input fields
                   if (usernameController.text.isEmpty ||
                       passwordController.text.isEmpty) {
                     showError(
@@ -112,27 +117,19 @@ class SigninPage extends StatelessWidget {
                   }
 
                   try {
-                    bool result =
-                        await Provider.of<AuthProvider>(context, listen: false)
-                            .signin(
+                    await Provider.of<AuthProvider>(context, listen: false)
+                        .signin(
                       email: usernameController.text,
                       password: passwordController.text,
                     );
 
-                    if (result) {
-                      var user = context.read<AuthProvider>().user;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content:
-                                Text("You are Signed in")), // ${user!.username}
-                      );
-                      context.go('/home');
-                    } else {
-                      showError(context, "Email and/or Password is incorrect");
-                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text("Otp was sent to your email")),
+                    );
+                    context.goNamed('otp', extra: usernameController.text);
                   } on DioException catch (e) {
-                    if (e.response == null) return;
-                    if (e.response!.data == null) return;
+                    if (e.response == null || e.response!.data == null) return;
 
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(e.response!.data['message'] ??
@@ -141,17 +138,17 @@ class SigninPage extends StatelessWidget {
                 },
                 child: const Text(
                   "Login",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(fontSize: 18, color: Colors.amber),
                 ),
               ),
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () {
-                  context.go('/signup');
+                  context.goNamed('signup');
                 },
                 child: const Text(
                   "Don't have an account? Sign Up",
-                  style: TextStyle(color: Color(0xFF005BAA)),
+                  style: TextStyle(color: Colors.amber),
                 ),
               ),
             ],

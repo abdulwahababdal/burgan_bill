@@ -20,66 +20,76 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE5F1F9),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text("Sign Up"),
-        backgroundColor: const Color(0xFF005BAA),
+        backgroundColor: Colors.grey[900],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 40),
               const Text(
                 "Sign Up",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-
-              const SizedBox(height: 20),
-              // Username Field
-              _buildTextField(
-                controller: usernameController,
-                hintText: 'Username',
-              ),
-              const SizedBox(height: 20),
-              // Password Field
-              _buildTextField(
-                controller: passwordController,
-                hintText: 'Password',
-                obscureText: true,
-              ),
-              const SizedBox(height: 20),
-              // Sign Up Button
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF005BAA),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
                 ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    {
-                      Provider.of<AuthProvider>(context, listen: false).signup(
-                        email: usernameController.text,
-                        password: passwordController.text,
-                      );
-                      Provider.of<AuthProvider>(context, listen: false);
-                      //   .logout();
-                      context.go('/');
-                    }
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please fill all fields')),
-                    );
-                  }
-                },
-                child: const Text("Sign Up"),
               ),
+              const SizedBox(height: 20),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 30),
+                    _buildTextField(
+                      controller: usernameController,
+                      hintText: 'Username',
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTextField(
+                      controller: passwordController,
+                      hintText: 'Password',
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 30),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[900],
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 100, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          Provider.of<AuthProvider>(context, listen: false)
+                              .signup(
+                            email: usernameController.text,
+                            password: passwordController.text,
+                          );
+                          context.go('/');
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Please fill all fields')),
+                          );
+                        }
+                      },
+                      child: const Text(
+                        "Sign Up",
+                        style: TextStyle(color: Colors.amber),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -103,12 +113,12 @@ class _SignupPageState extends State<SignupPage> {
         hintStyle: const TextStyle(color: Colors.grey),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Color(0xFF005BAA)),
+          borderSide: const BorderSide(color: Colors.amber),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(
-            color: Color(0xFF005BAA),
+            color: Colors.amber,
             width: 2,
           ),
         ),

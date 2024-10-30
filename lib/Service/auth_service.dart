@@ -20,7 +20,7 @@ class AuthServices {
     return user;
   }
 
-  Future<User> signin({
+  Future<void> signin({
     required String email,
     required String password,
   }) async {
@@ -29,15 +29,7 @@ class AuthServices {
       "password": password,
     });
 
-    if (response.statusCode != 200) {
-      throw response.data is Map
-          ? response.data['message']
-          : "Unexpected server error";
-    }
-    var user = User.fromJson(response.data['data']);
     print(response.statusCode);
-
-    return user;
   }
 
   Future<User> otp({
@@ -45,7 +37,7 @@ class AuthServices {
     required String otp,
   }) async {
     Response response = await Client.dio.post('/otp', data: {
-      "user": email,
+      "email": email,
       "otp": otp,
     });
 

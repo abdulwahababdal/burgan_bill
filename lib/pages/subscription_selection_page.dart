@@ -1,4 +1,3 @@
-// telecom_and_subscription_selection_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
@@ -53,19 +52,12 @@ class _TelecomAndSubscriptionSelectionPageState
     });
     switch (index) {
       case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        context.go('/');
         break;
       case 1:
-        // Stay on TelecomAndSubscriptionSelectionPage
         break;
       case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SettingsPage()),
-        );
+        context.go('/settings');
         break;
     }
   }
@@ -86,7 +78,6 @@ class _TelecomAndSubscriptionSelectionPageState
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Telecom Services Section
           Padding(
             padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
             child: Container(
@@ -117,7 +108,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Zain',
                   logoPath: 'assets/images/zain.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/telecom-bill',
                       extra: {
                         'serviceName': 'Zain',
@@ -134,7 +125,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Ooredoo',
                   logoPath: 'assets/images/ooredoo.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/telecom-bill',
                       extra: {
                         'serviceName': 'Ooredoo',
@@ -151,7 +142,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'STC',
                   logoPath: 'assets/images/stc.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/telecom-bill',
                       extra: {
                         'serviceName': 'STC',
@@ -175,8 +166,6 @@ class _TelecomAndSubscriptionSelectionPageState
             ),
           ),
           const SizedBox(height: 30),
-
-          // Subscription Services Section
           Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Container(
@@ -207,7 +196,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Netflix',
                   logoPath: 'assets/images/netflix.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/subscription',
                       extra: {
                         'serviceName': 'Netflix',
@@ -219,7 +208,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 1 screen',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                           SubscriptionOption(
@@ -228,7 +217,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 2 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                         ],
@@ -243,7 +232,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Disney+',
                   logoPath: 'assets/images/disney.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/subscription',
                       extra: {
                         'serviceName': 'Disney+',
@@ -255,7 +244,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               '4K UHD available',
                               'Watch on 2 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                           SubscriptionOption(
@@ -264,7 +253,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               '4K UHD available',
                               'Watch on 4 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                         ],
@@ -279,7 +268,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'HBO',
                   logoPath: 'assets/images/hbo.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/subscription',
                       extra: {
                         'serviceName': 'HBO',
@@ -291,7 +280,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 3 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                           SubscriptionOption(
@@ -300,7 +289,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 5 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                         ],
@@ -315,7 +304,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Amazon Prime',
                   logoPath: 'assets/images/prime.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/subscription',
                       extra: {
                         'serviceName': 'Amazon Prime',
@@ -327,7 +316,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 2 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                           SubscriptionOption(
@@ -336,7 +325,7 @@ class _TelecomAndSubscriptionSelectionPageState
                             features: [
                               'HD available',
                               'Watch on 4 screens',
-                              'Cancel anytime'
+                              'Cancel anytime',
                             ],
                           ),
                         ],
@@ -352,27 +341,6 @@ class _TelecomAndSubscriptionSelectionPageState
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[900],
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label: 'Subscriptions',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[400],
-        unselectedItemColor: Colors.grey[500],
-        onTap: _onItemTapped,
       ),
     );
   }

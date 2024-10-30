@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'subscription_success_page.dart';
 
 class SubscriptionPage extends StatefulWidget {
@@ -7,11 +8,11 @@ class SubscriptionPage extends StatefulWidget {
   final List<SubscriptionOption> options;
 
   const SubscriptionPage({
-    key,
+    Key? key,
     required this.serviceName,
     required this.logoPath,
     required this.options,
-  });
+  }) : super(key: key);
 
   @override
   _SubscriptionPageState createState() => _SubscriptionPageState();
@@ -23,92 +24,114 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Choose ${widget.serviceName} Subscription'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+    return Theme(
+      data: ThemeData(
+        primaryColor: Colors.grey[900],
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey[900],
+          titleTextStyle: TextStyle(
+            color: Colors.amber,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          iconTheme: IconThemeData(color: Colors.amber),
+        ),
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(color: Colors.black),
+          bodyMedium: TextStyle(color: Colors.grey[800]),
+          titleLarge:
+              TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
+        ),
+        cardColor: Colors.white,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey[900],
+            foregroundColor: Colors.amber,
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          ),
+        ),
+        switchTheme: SwitchThemeData(
+          thumbColor: MaterialStateProperty.all(Colors.amber),
+          trackColor: MaterialStateProperty.all(Colors.grey),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Service logo at the top
-            Center(
-              child: Image.asset(
-                widget.logoPath,
-                height: 100,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Choose ${widget.serviceName} Subscription'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              context.go('/dashboard'); // Back button goes to the dashboard
+            },
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: Image.asset(
+                  widget.logoPath,
+                  height: 100,
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            // Subscription Options
-            const Text(
-              'Select Your Plan',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            ...widget.options.asMap().entries.map((entry) {
-              int index = entry.key;
-              SubscriptionOption option = entry.value;
-              return Column(
+              const SizedBox(height: 20),
+              const Text(
+                'Select Your Plan',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              ...widget.options.asMap().entries.map((entry) {
+                int index = entry.key;
+                SubscriptionOption option = entry.value;
+                return Column(
+                  children: [
+                    SubscriptionOptionCard(
+                      title: option.title,
+                      price: option.price,
+                      features: option.features,
+                      isSelected: selectedIndex == index,
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                );
+              }).toList(),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SubscriptionOptionCard(
-                    title: option.title,
-                    price: option.price,
-                    features: option.features,
-                    isSelected: selectedIndex == index,
-                    onTap: () {
+                  const Text('Auto-Renew Subscription'),
+                  Switch(
+                    value: _autoRenew,
+                    onChanged: (value) {
                       setState(() {
-                        selectedIndex = index;
+                        _autoRenew = value;
                       });
                     },
                   ),
-                  const SizedBox(height: 10),
                 ],
-              );
-            }).toList(),
-            const SizedBox(height: 20),
-            // Auto-Renewal Switch
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Auto-Renew Subscription'),
-                Switch(
-                  value: _autoRenew,
-                  onChanged: (value) {
-                    setState(() {
-                      _autoRenew = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-            const Spacer(),
-            // Subscribe Button
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SubscriptionSuccessPage(),
-                  ),
-                );
-              },
-              child: const Text('Subscribe'),
-            ),
-          ],
+              ),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: () {
+                  context.push('/subscription-success');
+                },
+                child: const Text('Subscribe'),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-// Subscription Option Model
 class SubscriptionOption {
   final String title;
   final String price;
@@ -121,7 +144,6 @@ class SubscriptionOption {
   });
 }
 
-// Subscription Option Card
 class SubscriptionOptionCard extends StatelessWidget {
   final String title;
   final String price;
@@ -130,20 +152,20 @@ class SubscriptionOptionCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const SubscriptionOptionCard({
-    key,
+    Key? key,
     required this.title,
     required this.price,
     required this.features,
     required this.isSelected,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: isSelected ? Colors.blue[100] : Colors.white,
+        color: isSelected ? Colors.blue[100] : Theme.of(context).cardColor,
         elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),

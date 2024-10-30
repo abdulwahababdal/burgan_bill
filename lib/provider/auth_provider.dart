@@ -9,52 +9,37 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
   User? user;
-  Sub? subscription;
 
   bool get isAuth => user != null;
 
-  void signup({
+  Future<void> signup({
     required String email,
     required String password,
   }) async {
-    var user = await AuthServices().signupAPI(
+    await AuthServices().signupAPI(
       email: email,
       password: password,
     );
     // _setToken(user);
     // print(token);
-    notifyListeners();
+    // notifyListeners();
 
-    Client.dio.options.headers[HttpHeaders.authorizationHeader] =
-        "Bearer ${user!.token}";
+    // Client.dio.options.headers[HttpHeaders.authorizationHeader] =
+    //     "Bearer ${user!.token}";
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("user", user.username);
-    prefs.setString("token", user.token);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString("user", user.username);
+    // prefs.setString("token", user.token);
   }
 
-  Future<bool> signin({
+  Future<void> signin({
     required String email,
     required String password,
   }) async {
-    var user = await AuthServices().signin(
+    await AuthServices().signin(
       email: email,
       password: password,
     );
-
-    if (user != null) {
-      Client.dio.options.headers[HttpHeaders.authorizationHeader] =
-          "Bearer ${user.token}";
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("user", user.username);
-      prefs.setString("token", user.token);
-
-      notifyListeners();
-      return true; // Sign-in successful
-    } else {
-      return false; // Sign-in failed
-    }
   }
 
   void _setToken(String token) async {
@@ -82,31 +67,23 @@ class AuthProvider extends ChangeNotifier {
     required String email,
     required otp,
   }) async {
-    var user = await AuthServices().otp(
+    user = await AuthServices().otp(
       email: email,
       otp: otp,
     );
+    notifyListeners();
+
+    Client.dio.options.headers[HttpHeaders.authorizationHeader] =
+        "Bearer ${user!.token}";
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("user", user!.username);
+    prefs.setString("token", user!.token);
   }
-  // bool isAuth() {
-  //   if (token.isNotEmpty && Jwt.getExpiryDate(token)!.isAfter(DateTime.now())) {
-  //     user = User.fromJson(Jwt.parseJwt(token));
-  //     Client.dio.options.headers = {
-  //       HttpHeaders.authorizationHeader: "bearer $token"
-  //     };
-
-  //     return true;
-  //   }
-
-  //   return false;
-  // }
-
-  // Future<void> initializeAuth() async {
-  //   await getToken();
-  // }
 
   void logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('email');
+    prefs.remove('user');
     prefs.remove('token');
     //   token = "";
     notifyListeners();

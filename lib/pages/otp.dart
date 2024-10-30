@@ -1,8 +1,16 @@
 import 'package:burgan_bill/main.dart';
+import 'package:burgan_bill/provider/auth_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class OtpPage extends StatefulWidget {
+  final String email;
+
+  const OtpPage({Key? key, required this.email}) : super(key: key);
+
   @override
   OtpPageState createState() => OtpPageState();
 }
@@ -14,7 +22,11 @@ class OtpPageState extends State<OtpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Email Verification')),
+      appBar: AppBar(
+        title: const Text('Email Verification'),
+        backgroundColor: const Color(0xFFFFD700), // Yellow AppBar color
+      ),
+      backgroundColor: Colors.white, // White background
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -40,9 +52,22 @@ class OtpPageState extends State<OtpPage> {
                           FocusScope.of(context).previousFocus();
                         }
                       },
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
                         counterText: '',
-                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                              color: Color(0xFFFFD700),
+                              width: 2), // Yellow border color
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                              color: Color(0xFFFFD700),
+                              width: 2), // Yellow border color
+                        ),
                       ),
                     ),
                   ),
@@ -54,23 +79,38 @@ class OtpPageState extends State<OtpPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 String otp = otpControllers
                     .map((element) => element.text)
                     .toList()
-                    .fold('', (sum, o) => o + sum);
-                print(otp);
-                //   var otpCode = '';
-                //   otpCode += otpControllers[0].text;
-                //   otpCode += otpControllers[1].text;
-                //   otpCode += otpControllers[2].text;
-                //   otpCode += otpControllers[3].text;
-                //   otpCode += otpControllers[4].text;
-                //   otpCode += otpControllers[5].text;
+                    .fold('', (sum, o) => sum + o);
+                try {
+                  await Provider.of<AuthProvider>(context, listen: false).otp(
+                    email: widget.email,
+                    otp: otp,
+                  );
 
-                //   print(otpCode);
+                  context.go('/dashboard');
+                } on DioException catch (e) {
+                  if (e.response != null && e.response!.data != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(e.response!.data['message'] ??
+                            "Unexpected error")));
+                  }
+                }
               },
-              child: const Text('Verify'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFFFD700), // Yellow button color
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text(
+                'Verify',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -78,9 +118,3 @@ class OtpPageState extends State<OtpPage> {
     );
   }
 }
-
-List<String> pricesStr = [
-  "12",
-  "8",
-  "10",
-];
