@@ -6,7 +6,11 @@ import 'package:burgan_bill/pages/signup.dart';
 import 'package:burgan_bill/pages/splash_screen.dart';
 import 'package:burgan_bill/pages/sub.dart';
 import 'package:burgan_bill/pages/subscription_selection_page.dart';
+import 'package:burgan_bill/pages/subscription_success_page.dart';
+import 'package:burgan_bill/pages/telecom_bill_page.dart';
+import 'package:burgan_bill/pages/bill_amount_page.dart'; // Import the BillAmountPage
 import 'package:burgan_bill/provider/auth_provider.dart';
+import 'package:burgan_bill/provider/theme_provider.dart';
 import 'package:burgan_bill/widgets/dashboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -15,79 +19,48 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString("user", "fakeuser");
   prefs.setString(
       "token", "82|7OMNhk6woETGj7Se2R7Qhw8D2ayrTwRKZxQkaKr661e6a93f");
 
   var authProvider = AuthProvider();
-  await authProvider.getToken(); // Initialize authentication
+  await authProvider.getToken();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => authProvider),
+        ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+        //  ChangeNotifierProvider(create: (_) => TransactionProvider()),
       ],
       child: MyApp(),
     ),
   );
-
-  // Uncomment the following to add more providers as needed
-  // runApp(
-  //   MultiProvider(
-  //     providers: [
-  //       ChangeNotifierProvider<PostProviders>(create: (_) => PostProviders()),
-  //       ChangeNotifierProvider<AuthProvider>(create: (_) => authProvider),
-  //       ChangeNotifierProvider<ExerciseProvider>(create: (_) => ExerciseProvider()),
-  //       ChangeNotifierProvider<ThemeNotifier>(create: (_) => ThemeNotifier()),
-  //       ChangeNotifierProvider<MeditationProvider>(create: (_) => MeditationProvider()),
-  //       ChangeNotifierProvider<MusicProvider>(create: (_) => MusicProvider()),
-  //     ],
-  //     child: MyApp(),
-  //   ),
-  // );
 }
-
-// class ThemeNotifier with ChangeNotifier {
-//   bool _isDarkMode = false;
-
-//   bool get isDarkMode => _isDarkMode;
-
-//   void toggleTheme() {
-//     _isDarkMode = !_isDarkMode;
-//     notifyListeners();
-//   }
-// }
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   final GoRouter _router = GoRouter(
     routes: [
+      GoRoute(path: '/', builder: (context, state) => SplashPage()),
       GoRoute(
-        path: '/',
-        builder: (context, state) => SplashPage(),
+        path: '/signin',
+        builder: (context, state) => SigninPage(),
+        routes: [
+          GoRoute(
+            path: 'otp',
+            name: 'otp',
+            builder: (context, state) => OtpPage(email: state.extra as String),
+          ),
+          GoRoute(path: 'signup', builder: (context, state) => SignupPage()),
+        ],
       ),
+      GoRoute(path: '/dashboard', builder: (context, state) => Dashboard()),
       GoRoute(
-          path: '/signin',
-          builder: (context, state) => SigninPage(),
-          routes: [
-            GoRoute(
-                path: 'otp',
-                name: 'otp',
-                builder: (context, state) => OtpPage(
-                      email: state.extra as String,
-                    )),
-            GoRoute(
-              path: 'signup',
-              builder: (context, state) => SignupPage(),
-            ),
-          ]),
-      GoRoute(
-        path: '/dashboard',
-        builder: (context, state) => Dashboard(),
-      ),
+          path: '/subscription-success',
+          builder: (context, state) => SubscriptionSuccessPage()),
       GoRoute(
         path: '/subscription',
         builder: (context, state) {
@@ -99,31 +72,28 @@ class MyApp extends StatelessWidget {
           );
         },
       ),
-
-      // GoRoute(
-      //   path: '/subscriptions',
-      //   builder: (context, state) => SubscriptionPage(),
-      // ),
-      // GoRoute(
-      //   path: '/tips',
-      //   builder: (context, state) => TipsPage(),
-      // ),
-      // GoRoute(
-      //   path: '/meditation',
-      //   builder: (context, state) => MeditationListPage(),
-      // ),
-      // GoRoute(
-      //   path: '/settings',
-      //   builder: (context, state) => SettingsPage(),
-      // ),
-      // GoRoute(
-      //   path: '/addtip',
-      //   builder: (context, state) => AddTipForm(),
-      // ),
-      // GoRoute(
-      //   path: '/profile',
-      //   builder: (context, state) => ProfilePage(),
-      // ),
+      GoRoute(
+        path: '/telecom-bill',
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>;
+          return TelecomBillPage(
+            serviceName: args['serviceName'] as String,
+            logoPath: args['logoPath'] as String,
+            amountDue: args['amountDue'] as double,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/bill-amount',
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>;
+          return BillAmountPage(
+            serviceName: args['serviceName'] as String,
+            logoPath: args['logoPath'] as String,
+            amountDue: args['amountDue'] as double,
+          );
+        },
+      ),
     ],
   );
 
@@ -132,23 +102,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: _router,
       debugShowCheckedModeBanner: false,
-      // Uncomment for custom theme handling
-      // theme: ThemeNotifier().isDarkMode ? darkTheme() : lightTheme(),
     );
   }
-
-  // Example theme methods
-  // ThemeData lightTheme() {
-  //   return ThemeData(
-  //     brightness: Brightness.light,
-  //     primaryColor: Colors.blue,
-  //   );
-  // }
-
-  // ThemeData darkTheme() {
-  //   return ThemeData(
-  //     brightness: Brightness.dark,
-  //     primaryColor: Colors.deepPurple,
-  //   );
-  // }
 }

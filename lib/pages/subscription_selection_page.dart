@@ -108,7 +108,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Zain',
                   logoPath: 'assets/images/zain.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/telecom-bill',
                       extra: {
                         'serviceName': 'Zain',
@@ -125,7 +125,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Ooredoo',
                   logoPath: 'assets/images/ooredoo.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/telecom-bill',
                       extra: {
                         'serviceName': 'Ooredoo',
@@ -142,7 +142,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'STC',
                   logoPath: 'assets/images/stc.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/telecom-bill',
                       extra: {
                         'serviceName': 'STC',
@@ -196,7 +196,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Netflix',
                   logoPath: 'assets/images/netflix.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/subscription',
                       extra: {
                         'serviceName': 'Netflix',
@@ -232,7 +232,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Disney+',
                   logoPath: 'assets/images/disney.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/subscription',
                       extra: {
                         'serviceName': 'Disney+',
@@ -268,7 +268,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'HBO',
                   logoPath: 'assets/images/hbo.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/subscription',
                       extra: {
                         'serviceName': 'HBO',
@@ -304,7 +304,7 @@ class _TelecomAndSubscriptionSelectionPageState
                   serviceName: 'Amazon Prime',
                   logoPath: 'assets/images/prime.png',
                   onTap: () {
-                    context.go(
+                    context.push(
                       '/subscription',
                       extra: {
                         'serviceName': 'Amazon Prime',

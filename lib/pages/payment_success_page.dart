@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
   const PaymentSuccessPage({key});
@@ -8,17 +9,32 @@ class PaymentSuccessPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Payment Status'),
-        automaticallyImplyLeading: false, // Hide the back button
+        automaticallyImplyLeading: false, // Disable default back behavior
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context
+                .go('/dashboard'); // Change '/dashboard' to your intended route
+          },
+        ),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.check_circle, color: Colors.green, size: 100),
-            SizedBox(height: 20),
-            Text(
+            const Icon(Icons.check_circle, color: Colors.green, size: 100),
+            const SizedBox(height: 20),
+            const Text(
               'Payment Successful!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                context.go(
+                    '/dashboard'); // Change '/dashboard' to your intended route
+              },
+              child: const Text('Go Back'),
             ),
           ],
         ),
