@@ -22,7 +22,11 @@ class OtpPageState extends State<OtpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Email Verification')),
+      appBar: AppBar(
+        title: const Text('Email Verification'),
+        backgroundColor: const Color(0xFFFFD700), // Yellow AppBar color
+      ),
+      backgroundColor: Colors.white, // White background
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -48,9 +52,22 @@ class OtpPageState extends State<OtpPage> {
                           FocusScope.of(context).previousFocus();
                         }
                       },
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
                         counterText: '',
-                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                              color: Color(0xFFFFD700),
+                              width: 2), // Yellow border color
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                              color: Color(0xFFFFD700),
+                              width: 2), // Yellow border color
+                        ),
                       ),
                     ),
                   ),
@@ -74,8 +91,6 @@ class OtpPageState extends State<OtpPage> {
                   );
 
                   context.go('/dashboard');
-
-                  //  context.go('/home');
                 } on DioException catch (e) {
                   if (e.response != null && e.response!.data != null) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -83,10 +98,19 @@ class OtpPageState extends State<OtpPage> {
                             "Unexpected error")));
                   }
                 }
-
-                print(otp);
               },
-              child: const Text('Verify'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFFFD700), // Yellow button color
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text(
+                'Verify',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -94,9 +118,3 @@ class OtpPageState extends State<OtpPage> {
     );
   }
 }
-
-List<String> pricesStr = [
-  "12",
-  "8",
-  "10",
-];

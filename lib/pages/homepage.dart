@@ -3,7 +3,9 @@ import 'package:burgan_bill/testdata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'settings_page.dart';
+import 'package:burgan_bill/provider/theme_provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,7 +16,6 @@ class _HomePageState extends State<HomePage> {
   final listScrollController = ScrollController();
   ScrollDirection scrollDirection = ScrollDirection.idle;
   var itemList = data;
-
   int _selectedIndex = 0;
 
   final List<Map<String, String>> transactionHistory = [
@@ -52,10 +53,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      backgroundColor: Colors.grey[850],
+      backgroundColor:
+          themeProvider.isDarkMode ? Colors.grey[900] : Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
+        backgroundColor:
+            themeProvider.isDarkMode ? Colors.black : Colors.grey[900],
         title: Text(
           "Dashboard",
           style: TextStyle(
@@ -76,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                 'Balance: \$5000',
                 style: TextStyle(
                   fontSize: 26,
-                  color: Colors.white,
+                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -84,7 +89,9 @@ class _HomePageState extends State<HomePage> {
               width: 400,
               margin: EdgeInsets.only(top: 20),
               decoration: BoxDecoration(
-                color: Colors.grey[700],
+                color: themeProvider.isDarkMode
+                    ? Colors.grey[800]
+                    : Colors.grey[700],
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),
@@ -114,11 +121,12 @@ class _HomePageState extends State<HomePage> {
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 200),
                         transform: Matrix4.rotationZ(
-                            scrollDirection == ScrollDirection.forward
-                                ? 0.07
-                                : scrollDirection == ScrollDirection.reverse
-                                    ? -0.07
-                                    : 0),
+                          scrollDirection == ScrollDirection.forward
+                              ? 0.07
+                              : scrollDirection == ScrollDirection.reverse
+                                  ? -0.07
+                                  : 0,
+                        ),
                         width: 220,
                         margin:
                             EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -144,7 +152,9 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: themeProvider.isDarkMode
+                                    ? Colors.black
+                                    : Colors.black,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -153,7 +163,9 @@ class _HomePageState extends State<HomePage> {
                               'Go to List',
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Colors.white,
+                                color: themeProvider.isDarkMode
+                                    ? Colors.white
+                                    : Colors.white,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -181,14 +193,23 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 final transaction = transactionHistory[index];
                 return ListTile(
-                  leading: Icon(Icons.attach_money, color: Colors.white),
+                  leading: Icon(Icons.attach_money,
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : Colors.black),
                   title: Text(
                     transaction['description']!,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black),
                   ),
                   subtitle: Text(
                     transaction['date']!,
-                    style: TextStyle(color: Colors.grey[400]),
+                    style: TextStyle(
+                        color: themeProvider.isDarkMode
+                            ? Colors.grey[400]
+                            : Colors.grey[600]),
                   ),
                   trailing: Text(
                     transaction['amount']!,
@@ -207,7 +228,9 @@ class _HomePageState extends State<HomePage> {
                 context.go('/chart');
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey[600],
+                backgroundColor: themeProvider.isDarkMode
+                    ? Colors.grey[700]
+                    : Colors.grey[600],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -215,34 +238,15 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Text(
                 'View Chart',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                    color:
+                        themeProvider.isDarkMode ? Colors.white : Colors.white),
               ),
             ),
             SizedBox(height: 20),
           ],
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: Colors.grey[900],
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Dashboard',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.account_balance_wallet),
-      //       label: 'Subscriptions',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.settings),
-      //       label: 'Settings',
-      //     ),
-      //   ],
-      //   currentIndex: _selectedIndex,
-      //   selectedItemColor: Colors.amber[400],
-      //   unselectedItemColor: Colors.grey[500],
-      //   onTap: _onItemTapped,
-      // ),
     );
   }
 }
@@ -254,10 +258,13 @@ class NewListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.grey[850],
+      backgroundColor:
+          themeProvider.isDarkMode ? Colors.grey[900] : Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
+        backgroundColor:
+            themeProvider.isDarkMode ? Colors.black : Colors.grey[900],
         title: Text(
           listName,
           style: TextStyle(
@@ -279,10 +286,13 @@ class NewListPage extends StatelessWidget {
 class ChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:
+          themeProvider.isDarkMode ? Colors.grey[900] : Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
+        backgroundColor:
+            themeProvider.isDarkMode ? Colors.black : Colors.grey[900],
         title: Text(
           'Chart Page',
           style: TextStyle(

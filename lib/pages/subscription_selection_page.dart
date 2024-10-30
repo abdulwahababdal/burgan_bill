@@ -1,6 +1,8 @@
+import 'package:burgan_bill/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'homepage.dart';
 import 'settings_page.dart';
 import 'telecom_bill_page.dart';
@@ -64,8 +66,9 @@ class _TelecomAndSubscriptionSelectionPageState
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
         title: const Text(
@@ -73,7 +76,17 @@ class _TelecomAndSubscriptionSelectionPageState
           style: TextStyle(color: Colors.amber),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(
+                themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          ),
+        ],
       ),
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

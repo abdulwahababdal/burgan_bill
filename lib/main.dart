@@ -1,11 +1,11 @@
-import 'package:burgan_bill/pages/homepage.dart';
 import 'package:burgan_bill/pages/otp.dart';
-import 'package:burgan_bill/pages/settings_page.dart';
 import 'package:burgan_bill/pages/signin.dart';
 import 'package:burgan_bill/pages/signup.dart';
 import 'package:burgan_bill/pages/splash_screen.dart';
+import 'package:burgan_bill/pages/sub.dart';
 import 'package:burgan_bill/pages/subscription_selection_page.dart';
 import 'package:burgan_bill/provider/auth_provider.dart';
+import 'package:burgan_bill/provider/theme_provider.dart'; // Import ThemeProvider
 import 'package:burgan_bill/widgets/dashboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -21,43 +21,20 @@ void main() async {
       "token", "82|7OMNhk6woETGj7Se2R7Qhw8D2ayrTwRKZxQkaKr661e6a93f");
 
   var authProvider = AuthProvider();
-  await authProvider.getToken(); // Initialize authentication
+  await authProvider.getToken();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => authProvider),
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (_) => ThemeProvider(),
+        ), // Add ThemeProvider
       ],
       child: MyApp(),
     ),
   );
-
-  // Uncomment the following to add more providers as needed
-  // runApp(
-  //   MultiProvider(
-  //     providers: [
-  //       ChangeNotifierProvider<PostProviders>(create: (_) => PostProviders()),
-  //       ChangeNotifierProvider<AuthProvider>(create: (_) => authProvider),
-  //       ChangeNotifierProvider<ExerciseProvider>(create: (_) => ExerciseProvider()),
-  //       ChangeNotifierProvider<ThemeNotifier>(create: (_) => ThemeNotifier()),
-  //       ChangeNotifierProvider<MeditationProvider>(create: (_) => MeditationProvider()),
-  //       ChangeNotifierProvider<MusicProvider>(create: (_) => MusicProvider()),
-  //     ],
-  //     child: MyApp(),
-  //   ),
-  // );
 }
-
-// class ThemeNotifier with ChangeNotifier {
-//   bool _isDarkMode = false;
-
-//   bool get isDarkMode => _isDarkMode;
-
-//   void toggleTheme() {
-//     _isDarkMode = !_isDarkMode;
-//     notifyListeners();
-//   }
-// }
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
@@ -69,74 +46,58 @@ class MyApp extends StatelessWidget {
         builder: (context, state) => SplashPage(),
       ),
       GoRoute(
-          path: '/signin',
-          builder: (context, state) => SigninPage(),
-          routes: [
-            GoRoute(
-                path: 'otp',
-                name: 'otp',
-                builder: (context, state) => OtpPage(
-                      email: state.extra as String,
-                    )),
-            GoRoute(
-              path: 'signup',
-              builder: (context, state) => SignupPage(),
+        path: '/',
+        builder: (context, state) => SigninPage(),
+        routes: [
+          GoRoute(
+            path: 'otp',
+            name: 'otp',
+            builder: (context, state) => OtpPage(
+              email: state.extra as String,
             ),
-          ]),
+          ),
+          GoRoute(
+            path: 'signup',
+            builder: (context, state) => SignupPage(),
+          ),
+        ],
+      ),
       GoRoute(
         path: '/dashboard',
         builder: (context, state) => Dashboard(),
       ),
-
-      // GoRoute(
-      //   path: '/subscriptions',
-      //   builder: (context, state) => TelecomAndSubscriptionSelectionPage(),
-      // ),
-      // GoRoute(
-      //   path: '/tips',
-      //   builder: (context, state) => TipsPage(),
-      // ),
-      // GoRoute(
-      //   path: '/meditation',
-      //   builder: (context, state) => MeditationListPage(),
-      // ),
-      // GoRoute(
-      //   path: '/settings',
-      //   builder: (context, state) => SettingsPage(),
-      // ),
-      // GoRoute(
-      //   path: '/addtip',
-      //   builder: (context, state) => AddTipForm(),
-      // ),
-      // GoRoute(
-      //   path: '/profile',
-      //   builder: (context, state) => ProfilePage(),
-      // ),
+      GoRoute(
+        path: '/sub',
+        builder: (context, state) => SubscriptionPage(
+          serviceName: "Premium Service",
+          logoPath: "assets/logo.png",
+          options: [
+            SubscriptionOption(
+              title: "Basic Plan",
+              price: "\$5/month",
+              features: ["Feature 1", "Feature 2"],
+            ),
+            SubscriptionOption(
+              title: "Premium Plan",
+              price: "\$10/month",
+              features: ["Feature 1", "Feature 2", "Feature 3"],
+            ),
+          ],
+        ),
+      ),
     ],
   );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _router,
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // Uncomment for custom theme handling
-      // theme: ThemeNotifier().isDarkMode ? darkTheme() : lightTheme(),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: TelecomAndSubscriptionSelectionPage(),
     );
   }
-
-  // Example theme methods
-  // ThemeData lightTheme() {
-  //   return ThemeData(
-  //     brightness: Brightness.light,
-  //     primaryColor: Colors.blue,
-  //   );
-  // }
-
-  // ThemeData darkTheme() {
-  //   return ThemeData(
-  //     brightness: Brightness.dark,
-  //     primaryColor: Colors.deepPurple,
-  //   );
-  // }
 }
