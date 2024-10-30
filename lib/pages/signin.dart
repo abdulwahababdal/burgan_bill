@@ -112,24 +112,17 @@ class SigninPage extends StatelessWidget {
                   }
 
                   try {
-                    bool result =
-                        await Provider.of<AuthProvider>(context, listen: false)
-                            .signin(
+                    await Provider.of<AuthProvider>(context, listen: false)
+                        .signin(
                       email: usernameController.text,
                       password: passwordController.text,
                     );
 
-                    if (result) {
-                      var user = context.read<AuthProvider>().user;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content:
-                                Text("You are Signed in")), // ${user!.username}
-                      );
-                      context.go('/home');
-                    } else {
-                      showError(context, "Email and/or Password is incorrect");
-                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text("Otp was sent to your email")),
+                    );
+                    context.go('/otp', extra: usernameController.text);
                   } on DioException catch (e) {
                     if (e.response == null) return;
                     if (e.response!.data == null) return;

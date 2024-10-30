@@ -1,4 +1,5 @@
 import 'package:burgan_bill/pages/homepage.dart';
+import 'package:burgan_bill/pages/otp.dart';
 import 'package:burgan_bill/pages/signin.dart';
 import 'package:burgan_bill/pages/signup.dart';
 import 'package:burgan_bill/pages/splash_screen.dart';
@@ -64,15 +65,11 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(
         path: '/',
-
-        builder: (context, state) => TelecomAndSubscriptionSelectionPage(),
-
         builder: (context, state) => SplashPage(),
       ),
       GoRoute(
         path: '/signin',
         builder: (context, state) => SigninPage(),
-
       ),
       GoRoute(
         path: '/home',
@@ -82,11 +79,12 @@ class MyApp extends StatelessWidget {
         path: '/signup',
         builder: (context, state) => SignupPage(),
       ),
-      // Uncomment to add more routes
-      // GoRoute(
-      //   path: '/yoga',
-      //   builder: (context, state) => YogaPage(),
-      // ),
+
+      GoRoute(
+          path: '/otp',
+          builder: (context, state) => OtpPage(
+                email: state.extra as String,
+              )),
       // GoRoute(
       //   path: '/music',
       //   builder: (context, state) => MusicListPage(),

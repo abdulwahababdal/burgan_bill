@@ -1,7 +1,4 @@
-
 import 'package:burgan_bill/pages/subscription_selection_page.dart';
-=======
-
 import 'package:burgan_bill/testdata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -18,9 +15,6 @@ class _HomePageState extends State<HomePage> {
 
   var listScrollController = ScrollController();
   var scrollDirection = ScrollDirection.idle;
-=======
-  final listScrollController = ScrollController();
-  ScrollDirection scrollDirection = ScrollDirection.idle;
 
   int _selectedIndex = 0;
 
