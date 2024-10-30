@@ -420,6 +420,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ],
             ),
           ),
+
           ListTile(
             leading: Icon(Icons.logout, color: Colors.redAccent),
             title: Text(
@@ -430,6 +431,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             onTap: _logout,
           ),
+
         ],
       ),
     );
