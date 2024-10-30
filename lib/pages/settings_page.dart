@@ -1,7 +1,7 @@
-// settings_page.dart
 import 'package:burgan_bill/pages/homepage.dart';
 import 'package:burgan_bill/pages/subscription_selection_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -15,45 +15,15 @@ class _SettingsPageState extends State<SettingsPage> {
   void _toggleDarkMode(bool value) {
     setState(() {
       _isDarkMode = value;
-      // Add functionality here to apply dark mode theme throughout the app if needed.
     });
   }
 
   void _logout() {
-    // Add logout functionality here
-    Navigator.pop(context);
+    context.pop();
   }
 
   void _navigateToProfile() {
-    // Navigate to profile page
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ProfilePage()),
-    );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => TelecomAndSubscriptionSelectionPage()),
-        );
-        break;
-      case 2:
-        // Stay on SettingsPage
-        break;
-    }
+    context.go('/profile');
   }
 
   @override
@@ -100,27 +70,27 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[900],
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label: 'Subscriptions',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[400],
-        unselectedItemColor: Colors.grey[500],
-        onTap: _onItemTapped,
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: Colors.grey[900],
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.account_balance_wallet),
+      //       label: 'Subscriptions',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.settings),
+      //       label: 'Settings',
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: Colors.amber[400],
+      //   unselectedItemColor: Colors.grey[500],
+      //   onTap: _onItemTapped,
+      // ),
     );
   }
 }

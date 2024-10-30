@@ -1,4 +1,3 @@
-// telecom_and_subscription_selection_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
@@ -53,19 +52,12 @@ class _TelecomAndSubscriptionSelectionPageState
     });
     switch (index) {
       case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        context.go('/');
         break;
       case 1:
-        // Stay on TelecomAndSubscriptionSelectionPage
         break;
       case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SettingsPage()),
-        );
+        context.go('/settings');
         break;
     }
   }
@@ -86,7 +78,6 @@ class _TelecomAndSubscriptionSelectionPageState
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Telecom Services Section
           Padding(
             padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
             child: Container(
@@ -175,8 +166,6 @@ class _TelecomAndSubscriptionSelectionPageState
             ),
           ),
           const SizedBox(height: 30),
-
-          // Subscription Services Section
           Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Container(
@@ -353,27 +342,27 @@ class _TelecomAndSubscriptionSelectionPageState
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[900],
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label: 'Subscriptions',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[400],
-        unselectedItemColor: Colors.grey[500],
-        onTap: _onItemTapped,
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: Colors.grey[900],
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.account_balance_wallet),
+      //       label: 'Subscriptions',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.settings),
+      //       label: 'Settings',
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: Colors.amber[400],
+      //   unselectedItemColor: Colors.grey[500],
+      //   onTap: _onItemTapped,
+      // ),
     );
   }
 

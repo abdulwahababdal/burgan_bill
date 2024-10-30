@@ -1,8 +1,16 @@
 import 'package:burgan_bill/main.dart';
+import 'package:burgan_bill/provider/auth_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class OtpPage extends StatefulWidget {
+  final String email;
+
+  const OtpPage({Key? key, required this.email}) : super(key: key);
+
   @override
   OtpPageState createState() => OtpPageState();
 }
@@ -54,21 +62,26 @@ class OtpPageState extends State<OtpPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 String otp = otpControllers
                     .map((element) => element.text)
                     .toList()
-                    .fold('', (sum, o) => o + sum);
-                print(otp);
-                //   var otpCode = '';
-                //   otpCode += otpControllers[0].text;
-                //   otpCode += otpControllers[1].text;
-                //   otpCode += otpControllers[2].text;
-                //   otpCode += otpControllers[3].text;
-                //   otpCode += otpControllers[4].text;
-                //   otpCode += otpControllers[5].text;
+                    .fold('', (sum, o) => sum + o);
+                try {
+                  await Provider.of<AuthProvider>(context, listen: false).otp(
+                    email: widget.email,
+                    otp: otp,
+                  );
+                  context.go('/dashboard');
+                } on DioException catch (e) {
+                  if (e.response != null && e.response!.data != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(e.response!.data['message'] ??
+                            "Unexpected error")));
+                  }
+                }
 
-                //   print(otpCode);
+                print(otp);
               },
               child: const Text('Verify'),
             ),
