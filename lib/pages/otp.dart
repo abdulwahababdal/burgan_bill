@@ -72,7 +72,10 @@ class OtpPageState extends State<OtpPage> {
                     email: widget.email,
                     otp: otp,
                   );
-                  context.go('/home');
+
+                  context.go('/dashboard');
+
+                  //  context.go('/home');
                 } on DioException catch (e) {
                   if (e.response != null && e.response!.data != null) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

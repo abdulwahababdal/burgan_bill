@@ -6,14 +6,14 @@ import 'package:burgan_bill/pages/signup.dart';
 import 'package:burgan_bill/pages/splash_screen.dart';
 import 'package:burgan_bill/pages/subscription_selection_page.dart';
 import 'package:burgan_bill/provider/auth_provider.dart';
+import 'package:burgan_bill/widgets/dashboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Ensures Flutter is initialized before calling async code
+  WidgetsFlutterBinding.ensureInitialized();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString("user", "fakeuser");
@@ -69,30 +69,28 @@ class MyApp extends StatelessWidget {
         builder: (context, state) => SplashPage(),
       ),
       GoRoute(
-        path: '/signin',
-        builder: (context, state) => SigninPage(),
-      ),
+          path: '/signin',
+          builder: (context, state) => SigninPage(),
+          routes: [
+            GoRoute(
+                path: 'otp',
+                name: 'otp',
+                builder: (context, state) => OtpPage(
+                      email: state.extra as String,
+                    )),
+            GoRoute(
+              path: 'signup',
+              builder: (context, state) => SignupPage(),
+            ),
+          ]),
       GoRoute(
-        path: '/home',
-        builder: (context, state) => HomePage(),
-      ),
-      GoRoute(
-        path: '/signup',
-        builder: (context, state) => SignupPage(),
+        path: '/dashboard',
+        builder: (context, state) => Dashboard(),
       ),
 
-      GoRoute(
-          path: '/otp',
-          builder: (context, state) => OtpPage(
-                email: state.extra as String,
-              )),
-      GoRoute(
-        path: '/setting',
-        builder: (context, state) => SettingsPage(),
-      ),
       // GoRoute(
-      //   path: '/music',
-      //   builder: (context, state) => MusicListPage(),
+      //   path: '/subscriptions',
+      //   builder: (context, state) => TelecomAndSubscriptionSelectionPage(),
       // ),
       // GoRoute(
       //   path: '/tips',

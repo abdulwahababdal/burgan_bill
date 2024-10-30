@@ -17,16 +17,20 @@ class _SettingsPageState extends State<SettingsPage> {
   List<Map<String, String>> _accounts = [];
   final TextEditingController _emailController = TextEditingController();
 
-  String? _selectedBillType;
+  // Bill Reminder-specific variables
+  String? _selectedBillType; // Selected bill type for reminder
   bool _enableBillReminder = false;
   String? _reminderFrequency = '1 day before';
-  Map<String, dynamic> _billReminders = {};
+  Map<String, dynamic> _billReminders =
+      {}; // Stores reminders for each bill type
 
+  // Telecom-specific variables
   String? _selectedTelecomProvider;
   String _phoneNumber = '';
   List<Map<String, String>> _telecomAccounts = [];
   final TextEditingController _phoneController = TextEditingController();
 
+  // Map to hold account types and corresponding image paths
   final Map<String, String> _accountIcons = {
     'HBO': 'assets/images/hbo.png',
     'Netflix': 'assets/images/netflix.png',
@@ -34,6 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
     'Amazon Prime': 'assets/images/prime.png',
   };
 
+  // Map to hold telecom providers and corresponding image paths
   final Map<String, String> _telecomIcons = {
     'Zain': 'assets/images/zain.png',
     'Ooredoo': 'assets/images/ooredoo.png',
@@ -66,6 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
             .toList();
       }
 
+      // Load bill reminders
       String? savedBillReminders = prefs.getString('billReminders');
       if (savedBillReminders != null) {
         _billReminders = json.decode(savedBillReminders);
@@ -345,7 +351,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Bill Reminders (coming soon)',
+                    'Bill Reminders',
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
