@@ -1,5 +1,6 @@
 import 'package:burgan_bill/pages/homepage.dart';
 import 'package:burgan_bill/pages/otp.dart';
+import 'package:burgan_bill/pages/settings_page.dart';
 import 'package:burgan_bill/pages/signin.dart';
 import 'package:burgan_bill/pages/signup.dart';
 import 'package:burgan_bill/pages/splash_screen.dart';
@@ -85,6 +86,10 @@ class MyApp extends StatelessWidget {
           builder: (context, state) => OtpPage(
                 email: state.extra as String,
               )),
+      GoRoute(
+        path: '/setting',
+        builder: (context, state) => SettingsPage(),
+      ),
       // GoRoute(
       //   path: '/music',
       //   builder: (context, state) => MusicListPage(),
