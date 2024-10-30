@@ -124,6 +124,8 @@ class SigninPage extends StatelessWidget {
                           content: Text("Otp was sent to your email")),
                     );
                     context.goNamed('otp', extra: usernameController.text);
+
+                    //   context.go('/otp', extra: usernameController.text);
                   } on DioException catch (e) {
                     if (e.response == null || e.response!.data == null) return;
 

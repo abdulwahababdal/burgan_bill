@@ -13,6 +13,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final listScrollController = ScrollController();
   ScrollDirection scrollDirection = ScrollDirection.idle;
+  var itemList = data;
+
   int _selectedIndex = 0;
 
   final List<Map<String, String>> transactionHistory = [
@@ -46,17 +48,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
-    switch (index) {
-      case 0:
-        context.go('/');
-        break;
-      case 1:
-        context.go('/subscriptions');
-        break;
-      case 2:
-        context.go('/settings');
-        break;
-    }
   }
 
   @override
