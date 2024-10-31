@@ -73,7 +73,7 @@ class _SignupPageState extends State<SignupPage> {
                             email: usernameController.text,
                             password: passwordController.text,
                           );
-                          context.go('/');
+                          context.go('/signin');
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

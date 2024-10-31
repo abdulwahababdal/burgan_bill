@@ -9,6 +9,9 @@ import 'package:provider/provider.dart';
 import 'package:burgan_bill/provider/theme_provider.dart';
 
 class HomePage extends StatefulWidget {
+  void Function(int)? onCardClick;
+
+  HomePage({this.onCardClick});
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -50,13 +53,18 @@ class _HomePageState extends State<HomePage> {
     return true;
   }
 
+  List<Widget> pages = [
+    HomePage(),
+    TelecomAndSubscriptionSelectionPage(),
+    SettingsPage(),
+  ];
   void _onCardTap(String itemName) {
     switch (itemName) {
       case 'Telecom Service':
-        context.go('/telecom-selection');
+        widget.onCardClick?.call(1);
         break;
       case 'Subscription Service':
-        context.go('/subscription-selection');
+        widget.onCardClick?.call(1);
         break;
       case 'Coming Soon':
         break;
@@ -78,7 +86,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(
                 color: themeProvider.isDarkMode
                     ? Colors.amber[400]
-                    : Colors.amber[700],
+                    : Colors.amber[400],
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -259,9 +267,7 @@ class _HomePageState extends State<HomePage> {
                 }),
                 SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {
-                    context.go('/chart');
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[600],
                     shape: RoundedRectangleBorder(

@@ -50,13 +50,14 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var email = prefs.getString("email");
+    var email = prefs.getString("user");
     var token = prefs.getString("token");
     if (email == null || token == null) {
-      prefs.remove('email');
+      prefs.remove('user');
       prefs.remove('token');
       return;
     }
+    user = User(username: email, token: token);
     Client.dio.options.headers[HttpHeaders.authorizationHeader] =
         "Bearer ${user!.token}";
 

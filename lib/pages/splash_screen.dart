@@ -18,7 +18,7 @@ class _SplashPageState extends State<SplashPage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (context.read<AuthProvider>().user != null) {
-        context.go("/home");
+        context.go("/dashboard");
       } else {
         context.go("/signin");
       }
@@ -27,12 +27,6 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Medetation App"),
-        centerTitle: true,
-        backgroundColor: Colors.blueAccent,
-      ),
-    );
+    return Scaffold();
   }
 }

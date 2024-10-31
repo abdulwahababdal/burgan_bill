@@ -2,6 +2,7 @@ import 'package:burgan_bill/pages/homepage.dart';
 import 'package:burgan_bill/pages/settings_page.dart';
 import 'package:burgan_bill/pages/subscription_selection_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -13,11 +14,22 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int pageIndex = 0;
 
-  List<Widget> pages = [
-    HomePage(),
-    TelecomAndSubscriptionSelectionPage(),
-    SettingsPage(),
-  ];
+  late final List<Widget> pages;
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      HomePage(onCardClick: _setPageIndex),
+      TelecomAndSubscriptionSelectionPage(),
+      SettingsPage(),
+    ];
+  }
+
+  void _setPageIndex(int i) {
+    setState(() {
+      pageIndex = i;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

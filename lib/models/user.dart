@@ -5,7 +5,6 @@ class User {
   User({
     required this.username,
     required this.token,
-    required String email,
   });
 
   User.fromJson(dynamic json)
