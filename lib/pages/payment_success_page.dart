@@ -8,6 +8,7 @@ class PaymentSuccessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: const Text('Payment Status'),
         automaticallyImplyLeading: false, // Disable default back behavior
         leading: IconButton(
@@ -29,13 +30,6 @@ class PaymentSuccessPage extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                context.go(
-                    '/dashboard'); // Change '/dashboard' to your intended route
-              },
-              child: const Text('Go Back'),
-            ),
           ],
         ),
       ),

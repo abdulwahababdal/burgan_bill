@@ -48,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                     const SizedBox(height: 30),
                     _buildTextField(
                       controller: usernameController,
-                      hintText: 'Username',
+                      hintText: 'Email',
                     ),
                     const SizedBox(height: 20),
                     _buildTextField(

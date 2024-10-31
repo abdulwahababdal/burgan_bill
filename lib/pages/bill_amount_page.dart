@@ -1,5 +1,7 @@
+import 'package:burgan_bill/provider/transaction_provider.dart';
 import 'package:flutter/material.dart';
 import 'payment_success_page.dart';
+import 'package:provider/provider.dart';
 
 class BillAmountPage extends StatelessWidget {
   final String serviceName;
@@ -47,6 +49,10 @@ class BillAmountPage extends StatelessWidget {
             // Pay Button
             ElevatedButton(
               onPressed: () {
+                context
+                    .read<TransactionProvider>()
+                    .addTransaction(serviceName, amountDue);
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(

@@ -1,5 +1,7 @@
+import 'package:burgan_bill/provider/transaction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'subscription_success_page.dart';
 
 class SubscriptionPage extends StatefulWidget {
@@ -121,6 +123,12 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ElevatedButton(
                 onPressed: () {
                   context.push('/subscription-success');
+                  var text =
+                      widget.options[this.selectedIndex].price.split(' ')[0];
+
+                  context
+                      .read<TransactionProvider>()
+                      .addTransaction(widget.serviceName, double.parse(text));
                 },
                 child: const Text('Subscribe'),
               ),

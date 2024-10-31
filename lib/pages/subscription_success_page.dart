@@ -9,12 +9,11 @@ class SubscriptionSuccessPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Subscription Status'),
-        automaticallyImplyLeading: false, // Disable default back behavior
+        automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context
-                .go('/dashboard'); // Change '/dashboard' to your intended route
+            context.go('/dashboard');
           },
         ),
       ),
@@ -29,13 +28,6 @@ class SubscriptionSuccessPage extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                context.go(
-                    '/dashboard'); // Change '/dashboard' to your intended route
-              },
-              child: const Text('Go Back'),
-            ),
           ],
         ),
       ),

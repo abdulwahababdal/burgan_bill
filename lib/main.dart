@@ -11,6 +11,7 @@ import 'package:burgan_bill/pages/telecom_bill_page.dart';
 import 'package:burgan_bill/pages/bill_amount_page.dart'; // Import the BillAmountPage
 import 'package:burgan_bill/provider/auth_provider.dart';
 import 'package:burgan_bill/provider/theme_provider.dart';
+import 'package:burgan_bill/provider/transaction_provider.dart';
 import 'package:burgan_bill/widgets/dashboard_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +33,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => authProvider),
         ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
-        //  ChangeNotifierProvider(create: (_) => TransactionProvider()),
+        ChangeNotifierProvider(create: (_) => TransactionProvider()),
       ],
       child: MyApp(),
     ),
