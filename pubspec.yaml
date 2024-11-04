@@ -23,6 +23,7 @@ dependencies:
   url_launcher: ^6.3.1
   flutter_animate: ^4.5.0
   flutter_launcher_icons: ^0.14.1
+  icons_launcher: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -35,7 +36,10 @@ flutter:
   assets:
     - assets/images/
 
-flutter_icons:
+icons_launcher:
   image_path: "assets/images/buranbill.png"
-  android: true
-  ios: true
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
